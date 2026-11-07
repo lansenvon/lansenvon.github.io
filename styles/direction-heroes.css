@@ -1,0 +1,30 @@
+.hero .eyebrow [data-direction-label] { width: auto; height: auto; background: none; }
+.hero-visual.direction-art { display: flex; flex-direction: column; justify-content: center; align-items: stretch; min-height: 0; height: auto; padding: 25px 0; }
+.direction-art::before { display: none; }
+.direction-art .art-head { display: flex; justify-content: space-between; align-items: baseline; gap: 15px; border-top: 1px solid var(--line); padding-top: 15px; }
+.direction-art .art-head p { margin: 0; font: .65rem var(--mono); letter-spacing: .09em; color: var(--green); }
+.direction-art .art-head span { font: .66rem var(--mono); color: var(--muted); }
+.hero-visual.direction-art img { width: 100%; height: auto; max-height: none; aspect-ratio: 1120 / 720; object-fit: contain; }
+.hero-visual.direction-art figcaption { position: static; padding: 0; background: transparent; }
+.direction-art h2 { font-family: var(--serif); font-size: 1.75rem; font-weight: 400; margin: 0 0 4px; color: var(--ink); }
+.direction-art [data-hero-caption] { display: block; color: var(--muted); font-size: .82rem; }
+.hero-chain { list-style: none; counter-reset: stage; padding: 15px 0 0; margin: 15px 0 0; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 18px; }
+.hero-chain li { counter-increment: stage; color: var(--ink); font-size: .77rem; white-space: nowrap; }
+.hero-chain li::before { content: counter(stage, decimal-leading-zero); color: var(--accent); font: .67rem var(--mono); margin-right: 6px; }
+.direction-control { flex-wrap: wrap; overflow: visible; }
+.project-row[data-project="p04"] .project-image img { object-fit: contain; background: var(--paper); }
+.tdfl-diagram img { width: 100%; height: auto; aspect-ratio: 1120 / 720; object-fit: contain; }
+.tdfl-diagram .hero-chain { margin-bottom: 12px; }
+.signal-key { display: flex; flex-wrap: wrap; gap: 10px 25px; font-size: .82rem; color: var(--muted); }
+.signal-key span::before { content: ""; display: inline-block; vertical-align: middle; width: 26px; height: 0; border-top: 3px dashed #bd7446; margin-right: 8px; }
+.signal-key .pump::before { border-color: #4c8580; }
+.signal-key .output::before { border-color: #273e45; border-top-style: solid; }
+@media (max-width: 700px) {
+  .hero-visual.direction-art { margin: 12px 0 18px; padding: 0; }
+  .direction-art .art-head { padding-top: 12px; }
+  .direction-art h2 { font-size: 1.4rem; }
+  .hero-chain { gap: 8px 14px; margin-top: 12px; padding-top: 12px; }
+  .hero-chain li { font-size: .78rem; }
+  .direction-control button { flex: 0 1 auto; }
+  .signal-key { font-size: .77rem; }
+}
