@@ -1,4 +1,5 @@
 window.SITE_DATA = {
+  resumeVersion: "20261107-qr",
   defaultDirection: "systems",
   directions: {
     systems: {

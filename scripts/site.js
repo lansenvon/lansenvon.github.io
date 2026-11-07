@@ -22,13 +22,14 @@
     const direction = data.directions[key];
     if (!direction) return;
     activeDirection = key;
+    const resumeQuery = data.resumeVersion ? `?v=${encodeURIComponent(data.resumeVersion)}` : "";
     try { localStorage.setItem("portfolio-direction", key); } catch {}
     document.querySelectorAll("[data-direction]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.direction === key));
     });
     document.querySelectorAll("[data-resume]").forEach((link) => {
       const isHome = link.hasAttribute("data-home-resume");
-      link.href = `${root}${direction.resume}`;
+      link.href = `${root}${direction.resume}${resumeQuery}`;
       link.setAttribute("download", "");
       if (isHome) {
         const icon = link.querySelector('[aria-hidden="true"]');
@@ -39,6 +40,9 @@
         const label = link.querySelector("[data-resume-label]");
         if (label) label.textContent = direction.resumeLabel;
       }
+    });
+    document.querySelectorAll("[data-resume-plain]").forEach((link) => {
+      link.href = `${root}${direction.resume.replace(/\.pdf$/, "_无头像版.pdf")}${resumeQuery}`;
     });
     document.querySelectorAll("[data-direction-label]").forEach((node) => { node.textContent = direction.label; });
     document.querySelectorAll("[data-direction-summary]").forEach((node) => { node.textContent = direction.summary; });
