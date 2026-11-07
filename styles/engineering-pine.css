@@ -37,17 +37,20 @@
 [data-engineering] .system-node[aria-pressed="true"] .node-short,
 [data-engineering] .system-node[aria-pressed="true"] .node-mobile-input { color:#ffedda; }
 [data-engineering] .system-node[aria-pressed="true"] .node-mobile-input { border-color:#e8cbb780; }
+[data-engineering] .network-edge > path { transition:stroke-width .15s ease; }
 [data-engineering] .network-edge.edge-active > path { stroke-width:3.2; }
 [data-engineering] .network-lines .network-note { fill:#66705f; }
 [data-engineering] .system-relation { background:#edf1e5; border-top-color:#c6d1bd; border-radius:0 0 5px 5px; color:#41533f; }
 [data-engineering] .node-detail { margin-top:18px; min-height:156px; padding:16px 20px; border-left:3px solid var(--accent); border-radius:0 5px 5px 0; background:#eeeee4; }
+[data-engineering] .node-detail > *,[data-engineering] .evidence-panel > * { animation:engineering-soft-in .15s ease-out; }
+@keyframes engineering-soft-in { from { opacity:.45; } to { opacity:1; } }
 [data-engineering] .node-detail h4 { margin-bottom:10px; }
 [data-engineering] .node-detail-row { margin-top:6px; }
 [data-engineering] .node-detail-row p { color:#40503d; }
 [data-engineering] .system-evidence { padding:22px; border:1px solid var(--result-surface); border-radius:7px; background:var(--result-surface); color:var(--result-light); }
 [data-engineering] .system-evidence :focus-visible { outline-color:#f8dba4; }
 [data-engineering] .evidence-tabs { gap:6px; padding:4px; border:1px solid var(--result-line); border-radius:5px; background:var(--result-deep); }
-[data-engineering] .evidence-tabs button { min-height:40px; margin:0; padding:8px 3px; border:0; border-radius:3px; color:var(--result-soft); font-size:.76rem; }
+[data-engineering] .evidence-tabs button { min-height:40px; margin:0; padding:8px 3px; border:0; border-radius:3px; color:var(--result-soft); font-size:.76rem; transition:background .15s ease,color .15s ease; }
 [data-engineering] .evidence-tabs button:hover { color:#fffaf0; background:#ffffff0d; }
 [data-engineering] .evidence-tabs button[aria-selected="true"] { color:var(--result-deep); background:var(--result-light); }
 [data-engineering] .evidence-panel { padding-top:28px; }
@@ -127,7 +130,7 @@
   [data-engineering] .evidence-ledger > div { grid-template-columns:1fr; }
 }
 @media (prefers-reduced-motion:reduce) {
-  [data-engineering] * { transition:none; }
+  [data-engineering] * { transition:none; animation:none; }
 }
 @media print {
   #engineering::before { display:none; }

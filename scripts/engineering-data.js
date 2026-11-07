@@ -5,9 +5,9 @@ window.ENGINEERING_DATA = {
     label: "实验设备", code: "CULTURE & IMAGING", title: "培养设备、卡托与程控显微", project: "p01", defaultNode: 3,
     relation: "培养后的芯片卡托由人工转移至程控显微平台，再进行图像采集与分析。",
     nodes: [
-      { label: "培养与流体", short: "培养设备", icon: "culture", tone: "blue", function: "提供芯片培养所需的设备与流体条件。", work: "承担外围培养设备研发与多轮迭代，结合实验流程完成设备集成。" },
+      { label: "培养与流体", short: "培养设备", icon: "culture", tone: "blue", function: "控制芯片培养的温湿度与流体灌注条件。", work: "承担外围培养设备研发与多轮迭代，结合实验流程完成设备集成。" },
       { label: "标准化卡托", short: "芯片固定", icon: "cartridge", tone: "lilac", function: "承载芯片，衔接培养设备与后续显微观察。", work: "开展标准化卡托研发，使芯片承载、安装与显微观察接口相互适配。" },
-      { label: "人工转移", short: "流程衔接", icon: "transfer", tone: "neutral", function: "将培养后的卡托移至显微平台。", work: "围绕实际实验操作衔接卡托与设备接口，组织培养和显微成像流程。" },
+      { label: "人工转移", short: "流程衔接", icon: "transfer", tone: "neutral", function: "将培养后的卡托移至显微平台。", work: "设计标准化卡托的快拆与定位接口，使培养后的卡托可直接移载至显微平台。" },
       { label: "程控显微", short: "采集与对焦", icon: "microscope", tone: "blue", function: "完成显微图像采集与焦面搜索。", work: "集成程控显微平台，独立实现图像预处理与自动对焦程序。" },
       { label: "MIC 边界搜索", short: "图像分析", icon: "search", tone: "green", function: "结合图像处理和搜索程序定位 MIC 边界。", work: "独立实现 MIC 边界搜索程序，联动显微采集与图像分析。" }
     ],
@@ -36,10 +36,10 @@ window.ENGINEERING_DATA = {
     relation: "耦合器连接输出光纤，并向热电堆提供光学取样；采集与功率模型支撑输出功率闭环。",
     nodes: [
       { label: "恒流驱动板", short: "驱动电流", icon: "drive", tone: "blue", function: "按控制要求向 LD 提供驱动电流。", work: "负责系统需求、关键器件选型方向与电流波形目标，与电子工程师共同完成驱动控制开发和调试。" },
-      { label: "LD 泵浦源", short: "泵浦能量", icon: "diode", tone: "lilac", function: "将电能转换为泵浦光，为掺铥增益介质提供能量。", work: "与光学工程师共同完成光路实施与装调，结合驱动波形、光学输出和热状态开展整机联调。" },
+      { label: "LD 泵浦源", short: "泵浦能量", icon: "diode", tone: "lilac", function: "将电能转换为泵浦光，为掺铥增益介质提供能量。", work: "与光学工程师共同完成泵浦光路装调，配合电子工程师验证不同驱动电流下的泵浦与输出状态。" },
       { label: "掺铥光纤", short: "增益与激光振荡", icon: "fiber", tone: "sand", function: "掺铥光纤提供增益，与光学反馈共同形成激光振荡。", work: "与光学工程师共同完成光纤安装、固定、布局走线和工艺优化，排查熔接、发热、漏光及弯曲状态。" },
-      { label: "耦合器", short: "输出与取样", icon: "coupler", tone: "blue", function: "连接激光输出与输出光纤，同时提供热电堆所需的取样条件。", work: "共同完成耦合器调试和输出异常排查；在功率监测项目中重新设计耦合器与探测器布置，解决读数波动。" },
-      { label: "输出光纤", short: "光能传输", icon: "output", tone: "green", function: "将耦合进入的激光传输至输出端。", work: "与光学工程师共同完成输出验证，结合光学输出、电流波形和热状态推进整机联调。" }
+      { label: "耦合器", short: "输出与取样", icon: "coupler", tone: "blue", function: "连接激光输出与输出光纤，并分出光学取样送入热电堆。", work: "共同完成耦合器调试和输出异常排查；在功率监测项目中重新设计耦合器与探测器布置，解决读数波动。" },
+      { label: "输出光纤", short: "光能传输", icon: "output", tone: "green", function: "将耦合进入的激光传输至输出端。", work: "与光学工程师共同完成输出光纤装调与功率测试，结合电流波形和热状态开展整机联调。" }
     ],
     evidence: [
       { tab: "驱动联调", value: "约 500 → 190", unit: "mV", label: "电流波形过冲 / 振荡幅度", rows: [["协作", "与电子工程师联合调试"], ["工作", "控制需求 / 波形目标 / 整机集成"], ["交付", "技术设计文档 / 测试方案"]] },
@@ -50,9 +50,9 @@ window.ENGINEERING_DATA = {
     label: "光纤耦合", code: "DIODE LASER COUPLING", title: "光斑调整与光纤输出验证", project: "p05", defaultNode: 2,
     relation: "围绕激光器、镜片与光纤的匹配开展调整，并结合供电、散热和安装条件验证整机输出。",
     nodes: [
-      { label: "激光器", short: "方案与器件", icon: "diode", tone: "blue", function: "提供耦合进入光纤的激光输出。", work: "评估方案与器件，搭建测试环境，比较不同器件与工作条件对光斑的影响。" },
-      { label: "光学调整", short: "镜片与光斑", icon: "lens", tone: "lilac", function: "调整光束，使其与光纤入射条件相匹配。", work: "完成镜片及光斑调整，根据耦合测试结果优化光学参数。" },
-      { label: "光纤耦合", short: "对准与匹配", icon: "coupler", tone: "sand", function: "将光束耦合进入光纤。", work: "开展光纤耦合调试，按输出测试结果优化耦合状态。" },
+      { label: "激光器", short: "方案与器件", icon: "diode", tone: "blue", function: "输出待耦合的半导体激光光束。", work: "评估方案与器件，搭建测试环境，比较不同器件与工作条件对光斑的影响。" },
+      { label: "光学调整", short: "镜片与光斑", icon: "lens", tone: "lilac", function: "通过镜片整形与聚焦，使光斑匹配光纤入射条件。", work: "调整镜片位置与焦距，测试并收敛入射光斑尺寸与形态。" },
+      { label: "光纤耦合", short: "对准与匹配", icon: "coupler", tone: "sand", function: "对准光纤端面，将聚焦光束高效耦合进入光纤。", work: "开展光纤端面对准与耦合调试，对比输出功率优化耦合效率。" },
       { label: "整机安装", short: "结构与散热", icon: "mount", tone: "blue", function: "衔接光学系统与供电、散热、机械安装条件。", work: "配合供电、散热与安装调试，针对孔位匹配推进结构件加工和重新装配。" },
       { label: "输出验证", short: "耦合效率", icon: "output", tone: "green", function: "通过激光器与光纤输出功率评估耦合效果。", work: "完成光纤输出和整机安装验证，耦合效率达到 91% / 92%。" }
     ],

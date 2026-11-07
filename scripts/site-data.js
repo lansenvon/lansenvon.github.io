@@ -39,7 +39,7 @@ window.SITE_DATA = {
       resumeLabel: "下载生物医学与实验设备简历",
       resume: "assets/resumes/冯朗成_生物医学信号与实验设备工程师_简历.pdf",
       summary: "实验设备、图像分析与自动化",
-      heroLead: "承担外围培养设备、标准化卡托与显微成像联动研发，独立实现图像预处理、自动对焦与 MIC 边界搜索程序。",
+      heroLead: "开展微流控培养设备、标准化卡托与程控显微平台研发，实现显微自动对焦、MIC 边界搜索及生物医学信号采集处理算法。",
       hero: {
         src: "assets/images/concept/biomedical-culture-microscopy-concept.webp",
         alt: "温控培养设备、标准化卡托、程控显微平台与图像分析流程的工程概念图。",
