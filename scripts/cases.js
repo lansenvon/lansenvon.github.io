@@ -33,15 +33,16 @@
       if (status) status.textContent = point.dataset.intervalLabel;
     });
   });
-  const windowDescriptions = {
+  const defaultWindows = {
     '50': '50 ms 窗口：滑动 RMS 以最近 50 ms 的原始 ADC 样本计算活动包络。',
     '100': '100 ms 窗口：滑动 RMS 以最近 100 ms 的原始 ADC 样本计算活动包络。',
     '200': '200 ms 窗口：滑动 RMS 以最近 200 ms 的原始 ADC 样本计算活动包络。'
   };
+  const windowDescriptions = (window.SITE_DATA && window.SITE_DATA.ui && window.SITE_DATA.ui.rmsWindows) || defaultWindows;
   document.querySelectorAll('input[name="rms-window"]').forEach((input) => {
     input.addEventListener('change', () => {
       const description = document.querySelector('[data-window-description]');
-      if (description && input.checked) description.textContent = windowDescriptions[input.value];
+      if (description && input.checked) description.textContent = windowDescriptions[input.value] || '';
     });
   });
 })();

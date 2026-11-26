@@ -2,6 +2,11 @@
   "use strict";
   const data = window.SITE_DATA;
   const root = document.body.dataset.root || "";
+  const pageRoot = document.body.dataset.pageRoot ?? root;
+  const ui = Object.assign(
+    { prevProject: "上一项目：", allProjects: "全部项目", nextProject: "下一项目：" },
+    data.ui || {}
+  );
   const focusKeys = Object.keys(data.directions);
   const urlFocus = new URLSearchParams(location.search).get("focus");
   let storedDirection = null;
@@ -35,19 +40,26 @@
         const icon = link.querySelector('[aria-hidden="true"]');
         link.replaceChildren(document.createTextNode(`${direction.resumeLabel} `));
         if (icon) link.append(icon);
-      }
-      else {
+      } else {
         const label = link.querySelector("[data-resume-label]");
         if (label) label.textContent = direction.resumeLabel;
       }
     });
     document.querySelectorAll("[data-resume-plain]").forEach((link) => {
-      link.href = `${root}${direction.resume.replace(/\.pdf$/, "_无头像版.pdf")}${resumeQuery}`;
+      const plain = "resumePlain" in direction
+        ? direction.resumePlain
+        : direction.resume.replace(/\.pdf$/, "_无头像版.pdf");
+      if (!plain) {
+        link.hidden = true;
+      } else {
+        link.hidden = false;
+        link.href = `${root}${plain}${resumeQuery}`;
+      }
     });
     document.querySelectorAll("[data-direction-label]").forEach((node) => { node.textContent = direction.label; });
     document.querySelectorAll("[data-direction-summary]").forEach((node) => { node.textContent = direction.summary; });
     document.querySelectorAll("[data-direction-lead]").forEach((node) => { node.textContent = direction.heroLead || ""; });
-    // Homepage and review page share the direction, artwork and resume bindings.
+
     if (direction.hero) {
       const hero = direction.hero;
       document.querySelectorAll("[data-direction-hero]").forEach((img) => {
@@ -74,7 +86,15 @@
       link.href = withFocus(link.dataset.path || link.getAttribute("href"), key);
     });
     document.querySelectorAll('a[href*="focus="]').forEach((link) => {
+      if (link.hasAttribute("data-lang-switch")) return;
       link.href = withFocus(link.getAttribute("href"), key);
+    });
+    document.querySelectorAll("[data-lang-switch]").forEach((link) => {
+      const base = link.dataset.langTarget || link.getAttribute("href");
+      const url = new URL(base, location.href);
+      url.searchParams.set("focus", key);
+      if (location.hash) url.hash = location.hash;
+      link.href = `${url.pathname}${url.search}${url.hash}`;
     });
 
     const projectList = document.querySelector("[data-project-list]");
@@ -92,19 +112,18 @@
     const currentProject = pageProject === "p04-p05" ? "p04" : pageProject;
     const nav = document.querySelector("[data-case-nav]");
     if (currentProject && nav) {
-      // P04 and P05 share one case page, so page navigation skips the other section.
       const order = pageProject === "p04-p05"
         ? direction.order.filter((id) => id !== "p05")
         : direction.order;
       const index = order.indexOf(currentProject);
       nav.replaceChildren();
-      if (index > 0) nav.append(projectNavLink(order[index - 1], "上一项目："));
+      if (index > 0) nav.append(projectNavLink(order[index - 1], ui.prevProject));
       const directory = document.createElement("a");
       directory.className = "text-link";
-      directory.href = withFocus(`${root}#projects`, key);
-      directory.textContent = "全部项目";
+      directory.href = withFocus(`${pageRoot}#projects`, key);
+      directory.textContent = ui.allProjects;
       nav.append(directory);
-      if (index >= 0 && index < order.length - 1) nav.append(projectNavLink(order[index + 1], "下一项目："));
+      if (index >= 0 && index < order.length - 1) nav.append(projectNavLink(order[index + 1], ui.nextProject));
     }
 
     if (lastDispatchedDirection !== key) {

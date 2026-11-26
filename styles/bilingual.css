@@ -1,0 +1,60 @@
+/* Minimal bilingual styles layered on top of existing site styles (M1). */
+.site-header .header-links a.lang-switch,
+.site-header a.lang-switch {
+  min-height: 32px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: .76rem;
+  line-height: 1.2;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.site-header .header-links a.lang-switch::after {
+  display: none;
+}
+.site-header .header-links a.lang-switch:hover,
+.site-header a.lang-switch:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+html[lang="en"] .system-node strong {
+  line-height: 1.18;
+  font-size: .78rem;
+}
+html[lang="en"] .node-short {
+  line-height: 1.22;
+}
+html[lang="en"] .system-tabs button {
+  padding-inline: 10px;
+}
+html[lang="en"] .direction-control button {
+  white-space: nowrap;
+}
+@media (max-width: 1190px) {
+  html[lang="en"] .system-node strong {
+    font-size: .72rem;
+  }
+}
+@media (max-width: 700px) {
+  .case-page .site-header .header-links {
+    gap: 10px;
+  }
+  .case-page .site-header .header-links a.lang-switch {
+    min-height: 30px;
+    padding: 3px 9px;
+    font-size: .72rem;
+  }
+  .case-page .site-header .header-links [data-resume] {
+    gap: 5px;
+    font-size: .72rem;
+  }
+  html[lang="en"] .system-tabs button {
+    font-size: .72rem;
+    padding: 9px 4px;
+  }
+  html[lang="en"] .evidence-ledger > div {
+    grid-template-columns: 104px 1fr;
+  }
+}

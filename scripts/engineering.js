@@ -1,7 +1,22 @@
 (() => {
   'use strict';
   const systems = window.ENGINEERING_DATA;
+  const ui = Object.assign({
+    selectSystemAria: '选择项目系统',
+    hint: '点选节点，查看承担工作',
+    nodesAria: '系统功能节点',
+    nodeAriaSuffix: '，查看功能与我的工作',
+    resultsAria: '项目结果',
+    evidenceTabsAria: '结果与交付',
+    funcLabel: '功能',
+    workLabel: '我的工作',
+    viewFullProject: '查看完整项目 ↗',
+    viewPowerLoop: '查看耦合器改进与功率闭环 ↗',
+    viewThulium: '查看铥激光器研发与集成 ↗',
+    powerRangeAria: '功率波动区间 0.40% 至 1.03%，中位数 0.63%'
+  }, window.ENGINEERING_UI || {});
   const root = document.body.dataset.root || '';
+  const pageRoot = document.body.dataset.pageRoot ?? root;
   const directionSystem = { systems: 'power', optics: 'thulium', biomedical: 'culture' };
   let activeDirection = new URLSearchParams(location.search).get('focus');
   if (!window.SITE_DATA.directions[activeDirection]) {
@@ -19,11 +34,10 @@
     return `<svg class="network-lines" viewBox="0 0 ${graph.width} ${graph.height}" preserveAspectRatio="none" aria-hidden="true"><defs>${markers}</defs>${edges}${labels}</svg>${data.nodes.map((node,i)=>{
       const [x,y] = graph.positions[i];
       const input = graph.mobileInputs?.[i];
-      return `<button type="button" class="system-node" style="--nx:${x/graph.width*100}%;--ny:${y/graph.height*100}%;--nw:${graph.nodeWidth/graph.width*100}%;--nh:${graph.nodeHeight/graph.height*100}%" data-node="${i}" aria-pressed="false" aria-label="${escape(node.label)}，查看功能与我的工作">${input ? `<span class="node-mobile-input">${escape(input)}</span>` : ''}<span class="node-number">${String(i+1).padStart(2,'0')}</span><strong>${escape(node.label)}</strong><span class="node-short">${escape(node.short)}</span></button>`;
+      return `<button type="button" class="system-node" style="--nx:${x/graph.width*100}%;--ny:${y/graph.height*100}%;--nw:${graph.nodeWidth/graph.width*100}%;--nh:${graph.nodeHeight/graph.height*100}%" data-node="${i}" aria-pressed="false" aria-label="${escape(node.label + ui.nodeAriaSuffix)}">${input ? `<span class="node-mobile-input">${escape(input)}</span>` : ''}<span class="node-number">${String(i+1).padStart(2,'0')}</span><strong>${escape(node.label)}</strong><span class="node-short">${escape(node.short)}</span></button>`;
     }).join('')}`;
   }
 
-  // Native buttons remain the pointer, touch and keyboard targets at all sizes.
   function tabKeys(event, buttons, index, select) {
     let next = index;
     if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % buttons.length;
@@ -44,7 +58,7 @@
     const prefix = `engineering-${instance}`;
     const mount = host.querySelector('.engineering-mount');
     if (!mount) return;
-    mount.innerHTML = `<div class="engineering-board">${keys.length > 1 ? `<div class="system-tabs" role="tablist" aria-label="选择项目系统">${keys.map((k,i) => `<button type="button" role="tab" id="${prefix}-tab-${k}" aria-controls="${prefix}-panel" data-system="${k}"><span>${String(i+1).padStart(2,'0')}</span>${escape(systems[k].label)}</button>`).join('')}</div>` : ''}<div class="system-panel" id="${prefix}-panel" ${keys.length > 1 ? 'role="tabpanel"' : ''}><div class="system-heading"><div><p class="system-code"></p><h3></h3><p class="system-context"></p></div><p class="system-hint">点选节点，查看承担工作 <span aria-hidden="true">↙</span></p></div><div class="system-layout"><div class="system-explorer"><div class="system-canvas"><div class="system-nodes" role="group" aria-label="系统功能节点"></div><p class="network-feedback"></p><div class="network-legend"></div><p class="system-relation"></p></div><div class="node-detail" aria-live="polite" aria-atomic="true"></div></div><aside class="system-evidence" aria-label="项目结果"><div class="evidence-tabs" role="tablist" aria-label="结果与交付"></div><div class="evidence-panel" id="${prefix}-evidence" role="tabpanel" tabindex="0"></div><div class="system-case-links"><a class="system-case-link" data-engineering-link></a><a class="system-case-link" data-engineering-related></a></div></aside></div></div></div>`;
+    mount.innerHTML = `<div class="engineering-board">${keys.length > 1 ? `<div class="system-tabs" role="tablist" aria-label="${escape(ui.selectSystemAria)}">${keys.map((k,i) => `<button type="button" role="tab" id="${prefix}-tab-${k}" aria-controls="${prefix}-panel" data-system="${k}"><span>${String(i+1).padStart(2,'0')}</span>${escape(systems[k].label)}</button>`).join('')}</div>` : ''}<div class="system-panel" id="${prefix}-panel" ${keys.length > 1 ? 'role="tabpanel"' : ''}><div class="system-heading"><div><p class="system-code"></p><h3></h3><p class="system-context"></p></div><p class="system-hint">${escape(ui.hint)} <span aria-hidden="true">↙</span></p></div><div class="system-layout"><div class="system-explorer"><div class="system-canvas"><div class="system-nodes" role="group" aria-label="${escape(ui.nodesAria)}"></div><p class="network-feedback"></p><div class="network-legend"></div><p class="system-relation"></p></div><div class="node-detail" aria-live="polite" aria-atomic="true"></div></div><aside class="system-evidence" aria-label="${escape(ui.resultsAria)}"><div class="evidence-tabs" role="tablist" aria-label="${escape(ui.evidenceTabsAria)}"></div><div class="evidence-panel" id="${prefix}-evidence" role="tabpanel" tabindex="0"></div><div class="system-case-links"><a class="system-case-link" data-engineering-link></a><a class="system-case-link" data-engineering-related></a></div></aside></div></div></div>`;
     const panel = mount.querySelector('.system-panel');
     const tabs = [...mount.querySelectorAll('[data-system]')];
     const nodes = mount.querySelector('.system-nodes');
@@ -63,19 +77,19 @@
 
     function setLink() {
       const project = window.SITE_DATA.projects[systems[key].project];
-      const url = new URL(`${root}projects/${project.path}`, location.href);
+      const url = new URL(`${pageRoot}projects/${project.path}`, location.href);
       url.searchParams.set('focus', activeDirection);
       link.href = `${url.pathname}${url.search}${url.hash}`;
       const local = url.pathname === location.pathname;
       link.hidden = local;
-      link.textContent = '查看完整项目 ↗';
+      link.textContent = ui.viewFullProject;
       related.hidden = !['power','thulium'].includes(key);
       if (!related.hidden) {
         const other = key === 'thulium' ? 'p06' : 'p04';
-        const relatedUrl = new URL(`${root}projects/${window.SITE_DATA.projects[other].path}`, location.href);
+        const relatedUrl = new URL(`${pageRoot}projects/${window.SITE_DATA.projects[other].path}`, location.href);
         relatedUrl.searchParams.set('focus', activeDirection);
         related.href = `${relatedUrl.pathname}${relatedUrl.search}${relatedUrl.hash}`;
-        related.textContent = key === 'thulium' ? '查看耦合器改进与功率闭环 ↗' : '查看铥激光器研发与集成 ↗';
+        related.textContent = key === 'thulium' ? ui.viewPowerLoop : ui.viewThulium;
       }
     }
 
@@ -88,7 +102,7 @@
       nodes.querySelectorAll('.network-edge').forEach(edge=>{
         edge.classList.toggle('edge-active', Number(edge.dataset.from) === index || Number(edge.dataset.to) === index);
       });
-      detail.innerHTML = `<div class="node-detail-title"><span>${String(index+1).padStart(2,'0')}</span><h4>${escape(node.label)}</h4></div><div class="node-detail-row"><strong>功能</strong><p>${escape(node.function)}</p></div><div class="node-detail-row"><strong>我的工作</strong><p>${escape(node.work)}</p></div>`;
+      detail.innerHTML = `<div class="node-detail-title"><span>${String(index+1).padStart(2,'0')}</span><h4>${escape(node.label)}</h4></div><div class="node-detail-row"><strong>${escape(ui.funcLabel)}</strong><p>${escape(node.function)}</p></div><div class="node-detail-row"><strong>${escape(ui.workLabel)}</strong><p>${escape(node.work)}</p></div>`;
       placeDetail();
     }
 
@@ -100,7 +114,7 @@
         button.tabIndex = i === index ? 0 : -1;
       });
       evidencePanel.setAttribute('aria-labelledby', `${prefix}-evidence-${key}-${index}`);
-      evidencePanel.innerHTML = `<p class="evidence-value">${escape(entry.value)}${entry.unit ? `<small>${escape(entry.unit)}</small>` : ''}</p><p class="evidence-label">${escape(entry.label)}</p>${entry.range ? '<div class="evidence-range" role="img" aria-label="功率波动区间 0.40% 至 1.03%，中位数 0.63%"><i></i><span>0.40%</span><b>0.63%</b><span>1.03%</span></div>' : ''}<dl class="evidence-ledger">${entry.rows.map(([a,b])=>`<div><dt>${escape(a)}</dt><dd>${escape(b)}</dd></div>`).join('')}</dl>`;
+      evidencePanel.innerHTML = `<p class="evidence-value">${escape(entry.value)}${entry.unit ? `<small>${escape(entry.unit)}</small>` : ''}</p><p class="evidence-label">${escape(entry.label)}</p>${entry.range ? `<div class="evidence-range" role="img" aria-label="${escape(ui.powerRangeAria)}"><i></i><span>0.40%</span><b>0.63%</b><span>1.03%</span></div>` : ''}<dl class="evidence-ledger">${entry.rows.map(([a,b])=>`<div><dt>${escape(a)}</dt><dd>${escape(b)}</dd></div>`).join('')}</dl>`;
     }
 
     function selectSystem(next) {
@@ -150,7 +164,6 @@
     selectSystem(key);
   });
 
-  // A small, stable navigation bar follows the reader without hiding anchors.
   const menu = document.querySelector('[data-nav-toggle]');
   const nav = document.querySelector('#primary-navigation');
   const header = document.querySelector('.site-header');
